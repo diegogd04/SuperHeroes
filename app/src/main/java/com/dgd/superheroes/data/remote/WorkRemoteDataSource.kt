@@ -18,7 +18,7 @@ import java.util.concurrent.TimeoutException
 class WorkRemoteDataSource {
     private val baseUrl="https://dam.sitehub.es/api-curso/superheroes/"
 
-    suspend fun getWork(): Either<ErrorApp, Work>{
+    suspend fun getWork(id: Int): Either<ErrorApp, Work>{
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
 
@@ -35,7 +35,7 @@ class WorkRemoteDataSource {
         val service: WorkApiService = retrofit.create(WorkApiService::class.java)
 
         return try{
-            val repos: Response<WorkApiModel> = service.getWork()
+            val repos: Response<WorkApiModel> = service.getWork(id)
 
             if(repos.isSuccessful){
                 repos.body()!!.toModel().right()

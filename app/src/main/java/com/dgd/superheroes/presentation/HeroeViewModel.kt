@@ -6,12 +6,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dgd.superheroes.app.ErrorApp
 import com.dgd.superheroes.data.remote.HeroeRemoteDataSource
+import com.dgd.superheroes.data.remote.WorkRemoteDataSource
 import com.dgd.superheroes.domain.Heroe
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class HeroeViewModel(private val heroeRemoteDataSource: HeroeRemoteDataSource) : ViewModel() {
+class HeroeViewModel(
+    private val heroeRemoteDataSource: HeroeRemoteDataSource,
+    private val workRemoteDataSource: WorkRemoteDataSource
+) : ViewModel() {
     private val _uiModel = MutableLiveData<UiModel>()
     val uiModel: LiveData<UiModel> = _uiModel
 
@@ -20,6 +24,10 @@ class HeroeViewModel(private val heroeRemoteDataSource: HeroeRemoteDataSource) :
 
         viewModelScope.launch(Dispatchers.IO){
             println(heroeRemoteDataSource.getHeroes())
+            for (i in 1..20) {
+                var idWork = i
+                println(workRemoteDataSource.getWork(id = idWork))
+            }
         }
     }
 
