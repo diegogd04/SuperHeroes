@@ -5,5 +5,5 @@ import retrofit2.http.GET
 
 interface HeroeApiService {
     @GET("heroes.json")
-    suspend fun getHeroe(): Response<HeroeApiModel>
+    suspend fun getHeroes(): Response<List<HeroeApiModel>>
 }

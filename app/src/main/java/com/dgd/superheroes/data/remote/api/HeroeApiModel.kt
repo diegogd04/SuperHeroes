@@ -7,7 +7,7 @@ data class HeroeApiModel(
     @SerializedName("name") val name: String,
     @SerializedName("slug") val slug: String? = null,
     @SerializedName("powerstats") val powerstats: Powerstats,
-    @SerializedName("apperance") val apperance: Appearance,
+    @SerializedName("appearance") val appearance: Appearance,
     @SerializedName("images") val images: Images
 ) {
     data class Powerstats(

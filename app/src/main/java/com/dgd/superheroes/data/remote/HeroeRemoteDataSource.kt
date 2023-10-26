@@ -19,7 +19,7 @@ import java.util.concurrent.TimeoutException
 class HeroeRemoteDataSource {
     private val baseUrl = "https://dam.sitehub.es/api-curso/superheroes/"
 
-    suspend fun getHeroe(): Either<ErrorApp, Heroe>{
+    suspend fun getHeroes(): Either<ErrorApp, List<Heroe>>{
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
 
@@ -36,12 +36,15 @@ class HeroeRemoteDataSource {
         val service: HeroeApiService = retrofit.create(HeroeApiService::class.java)
 
         try {
-            val repos: Response<HeroeApiModel> = service.getHeroe()
+            val repos: Response<List<HeroeApiModel>> = service.getHeroes()
 
-            if(repos.isSuccessful){
-                return repos.body()!!.toModel().right()
+            return if(repos.isSuccessful){
+                val heroes = repos.body()!!.map {
+                    it.toModel()
+                }
+                return heroes.right()
             }else{
-                return ErrorApp.NetworkError.left()
+                ErrorApp.NetworkError.left()
             }
         }catch (ex: TimeoutException){
             return ErrorApp.NetworkError.left()

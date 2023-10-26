@@ -18,8 +18,8 @@ class HeroeViewModel(private val heroeRemoteDataSource: HeroeRemoteDataSource) :
     fun loadHeroe(){
         _uiModel.value = UiModel(isLoading = true)
 
-        viewModelScope.launch(Dispatchers.Main){
-            heroeRemoteDataSource.getHeroe()
+        viewModelScope.launch(Dispatchers.IO){
+            println(heroeRemoteDataSource.getHeroes())
         }
     }
 
