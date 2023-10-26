@@ -1,6 +1,7 @@
 package com.dgd.superheroes.data.remote.api
 
 import com.dgd.superheroes.domain.Heroe
+import com.dgd.superheroes.domain.Work
 
 fun HeroeApiModel.toModel(): Heroe =
     Heroe(this.id, this.name, this.slug, this.powerstats.toModel(), this.appearance.toModel(), this.images.toModel())
@@ -13,3 +14,6 @@ fun HeroeApiModel.Appearance.toModel(): Heroe.Appearance =
 
 fun HeroeApiModel.Images.toModel(): Heroe.Images =
     Heroe.Images(this.xs, this.sm, this.md, this.lg)
+
+fun WorkApiModel.toModel(): Work =
+    Work(this.occupation, this.base)
