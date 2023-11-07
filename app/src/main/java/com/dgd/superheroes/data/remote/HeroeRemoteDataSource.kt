@@ -8,6 +8,7 @@ import com.dgd.superheroes.data.remote.api.HeroeApiModel
 import com.dgd.superheroes.data.remote.api.HeroeApiService
 import com.dgd.superheroes.data.remote.api.toModel
 import com.dgd.superheroes.domain.Heroe
+import com.dgd.superheroes.domain.HeroeRepository
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
@@ -16,10 +17,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.net.UnknownHostException
 import java.util.concurrent.TimeoutException
 
-class HeroeRemoteDataSource {
+class HeroeRemoteDataSource: HeroeRepository{
     private val baseUrl = "https://dam.sitehub.es/api-curso/superheroes/"
 
-    suspend fun getHeroes(): Either<ErrorApp, List<Heroe>>{
+    override suspend fun obtain(): Either<ErrorApp, List<Heroe>>{
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
 

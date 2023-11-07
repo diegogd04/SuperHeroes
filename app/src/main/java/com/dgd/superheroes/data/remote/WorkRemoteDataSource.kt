@@ -7,7 +7,9 @@ import com.dgd.superheroes.app.right
 import com.dgd.superheroes.data.remote.api.WorkApiModel
 import com.dgd.superheroes.data.remote.api.WorkApiService
 import com.dgd.superheroes.data.remote.api.toModel
+import com.dgd.superheroes.domain.HeroeRepository
 import com.dgd.superheroes.domain.Work
+import com.dgd.superheroes.domain.WorkRepository
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
@@ -15,10 +17,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeoutException
 
-class WorkRemoteDataSource {
+class WorkRemoteDataSource: WorkRepository {
     private val baseUrl="https://dam.sitehub.es/api-curso/superheroes/"
 
-    suspend fun getWork(id: Int): Either<ErrorApp, Work>{
+    override suspend fun obtain(id: Int): Either<ErrorApp, Work>{
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
 
@@ -37,7 +39,7 @@ class WorkRemoteDataSource {
         return try{
             val repos: Response<WorkApiModel> = service.getWork(id)
 
-            if(repos.isSuccessful){
+            return if(repos.isSuccessful){
                 repos.body()!!.toModel().right()
             }else{
                 ErrorApp.NetworkError.left()
